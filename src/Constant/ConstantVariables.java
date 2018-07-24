@@ -20,6 +20,6 @@ public abstract class ConstantVariables {
     public final static String COMMAND_ClEAR_ALL = "clearAll";
     //public final static String COMMAND_CLOSE = "exit";
     public final static String TESTHOSTIP = "127.0.0.1";
-    public final static int TESTPORT = 8076;
+    public final static int TESTPORT = 8075;
     public static final int BUFFER_SIZE = 4096;
 }

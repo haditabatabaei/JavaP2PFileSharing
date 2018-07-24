@@ -82,29 +82,34 @@ public class RegisterHandler implements ActionListener {
         String returnMessage;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/p2pusers", "root", "");
-//here sonoo is database name, root is username and password
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE id >= 1");
-            while (rs.next()) {
-                if (rs.getString(2).equals(inputUsername) || rs.getString(4).equals(inputEmail)) {
+            Connection sqlConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/p2pusers", "root", "");
+            Statement checkStatement = sqlConnection.createStatement();
+            ResultSet checkResultSet = checkStatement.executeQuery("SELECT * FROM users WHERE id >= 1");
+            while (checkResultSet.next()) {
+                if (checkResultSet.getString(2).equals(inputUsername) || checkResultSet.getString(4).equals(inputEmail)) {
                     System.out.println("username or email already exists.");
                     canRegister = false;
+                    JOptionPane.showMessageDialog(null, "Username and(or) email address already registered.\nTry another.", "Register Error", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 }
             }
 
             if (canRegister) {
-                Statement stmt2 = con.createStatement();
-                System.out.println(inputUsername + " " + pass.toString() + " " + inputEmail + " " + inputFullname);
-                boolean rs2 = stmt2.execute("INSERT INTO users (username,password,email,fullname,AccountNumber) VALUES (" + inputUsername + "," + pass.toString() + "," + inputEmail.replace("@","[AT]") + "," + inputFullname + "," + 6 + ")");
+                Statement insertStatement = sqlConnection.createStatement();
+                String insertQuery = "insert into users (username,password,email,fullname) values (" + '"' + inputUsername + "\",\"" + pass.toString() + "\",\"" + inputEmail + "\",\"" + inputFullname + '"' + ");";
+                System.out.println(insertQuery);
+                int insertResponse = insertStatement.executeUpdate(insertQuery);
                 System.out.println("Account created.");
+                String messageToShow = "Account with details below created successfully :\nUsername : " + inputUsername + "\nEmail : " + inputEmail + "\nPassword : " + "Given Pass\nFull Name : " + inputFullname;
+                JOptionPane.showMessageDialog(null, messageToShow, "Registration Completed Successfully.", JOptionPane.INFORMATION_MESSAGE);
+                clearAllFields();
+                Manager.Manager.form.getRegisterForm().setVisible(false);
             } else
                 System.out.println("Can not register.");
 
-            con.close();
+            sqlConnection.close();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
