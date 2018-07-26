@@ -82,7 +82,7 @@ public class RegisterHandler implements ActionListener {
         String returnMessage;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection sqlConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/p2pusers", "root", "");
+            Connection sqlConnection = DriverManager.getConnection("jdbc:mysql://192.168.1.106:3306/p2pusers", "client", "");
             Statement checkStatement = sqlConnection.createStatement();
             ResultSet checkResultSet = checkStatement.executeQuery("SELECT * FROM users WHERE id >= 1");
             while (checkResultSet.next()) {
@@ -103,6 +103,8 @@ public class RegisterHandler implements ActionListener {
                 String messageToShow = "Account with details below created successfully :\nUsername : " + inputUsername + "\nEmail : " + inputEmail + "\nPassword : " + "Given Pass\nFull Name : " + inputFullname;
                 JOptionPane.showMessageDialog(null, messageToShow, "Registration Completed Successfully.", JOptionPane.INFORMATION_MESSAGE);
                 clearAllFields();
+                Manager.Manager.form.getRegisterItem().setText("Already Registered.");
+                Manager.Manager.form.getRegisterItem().setEnabled(false);
                 Manager.Manager.form.getRegisterForm().setVisible(false);
             } else
                 System.out.println("Can not register.");
