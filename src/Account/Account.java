@@ -11,6 +11,10 @@ public class Account {
     private String assignedIP;
     private Socket accountSocket;
 
+    public Account() {
+        isLoggedIn = false;
+    }
+
 
     public Socket getAccountSocket() {
         return accountSocket;
@@ -69,5 +73,14 @@ public class Account {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void simplePrint() {
+        System.out.println("Username : " + username + "\nPassword : " + password);
+    }
+
+    public void fullPrint() {
+        String toPrint = "username : " + username + " email : " + email + " pass : " + password + " fullname : " + fullName + " logged in : " + isLoggedIn;
+        System.out.println(toPrint);
     }
 }
