@@ -13,6 +13,7 @@ public abstract class ConstantVariables {
     public final static String COMMAND_BROWSE = "browse";
     public final static String COMMAND_SEND_FILE = "send";
     public final static String COMMAND_SHOW_REGISTER_WINDOW = "showreg";
+    public final static String COMMAND_SHOW_LOGIN_WINDOW = "showlogin";
     public final static String COMMAND_CANCEL_FILE = "cancelsend";
     public final static String COMMAND_LOGIN_ACCOUNT = "loginacc";
     public final static String COMMAND_LOGOUT_ACCOUNT = "logoutacc";
