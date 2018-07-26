@@ -32,6 +32,10 @@ public class SelfServer extends Thread {
         isActive = false;
     }
 
+    public ServerSocket getServerSocket() {
+        return serverSocket;
+    }
+
     public boolean isActive() {
         return isActive;
     }
@@ -78,7 +82,7 @@ public class SelfServer extends Thread {
                     Gui.serverTextArea.append(">connection from : " + client.getInetAddress().getHostAddress() + " accepted.\n");
                     tempOut.writeInt(0);
                     tempOut.flush();
-           //         tempOut.close();
+                    //         tempOut.close();
                     clientSockets.add(client);
                     executorService.execute(new MultiClientHandler(client));
                 } else {
