@@ -20,9 +20,16 @@ public class ClientCore {
     public ClientCore() {
         clientTextArea = new JTextArea();
         clientFile = new File("clientTest.rar");
-
+        account = new Account();
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
     public File getClientFile() {
         return clientFile;
