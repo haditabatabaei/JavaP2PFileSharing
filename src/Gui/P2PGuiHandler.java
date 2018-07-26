@@ -1,5 +1,6 @@
 package Gui;
 
+import Account.Account;
 import Client.ClientCore;
 import Constant.ConstantVariables;
 import Manager.Manager;
@@ -38,26 +39,35 @@ public class P2PGuiHandler implements ActionListener {
                 System.exit(0);
                 break;
             case ConstantVariables.COMMAND_START_SERVER:
-                if (selfServer.isActive()) {
-                    System.out.println(">server already started.");
-                    Gui.serverTextArea.append(">server already started.\n");
-                } else if (firstTimeLaunch == 0) {
-                    selfServer.setActive(true);
-                    selfServer.start();
-                    firstTimeLaunch++;
-                    System.out.println("Server started.");
-                    Gui.serverTextArea.append(">server started.\n");
+                if (Manager.clientCore.getAccount().isLoggedIn()) {
+                    if (selfServer.isActive()) {
+                        System.out.println(">server already started.");
+                        Gui.serverTextArea.append(">server already started.\n");
+                    } else if (firstTimeLaunch == 0) {
+                        selfServer.setActive(true);
+                        selfServer.start();
+                        firstTimeLaunch++;
+                        System.out.println("Server started.");
+                        Gui.serverTextArea.append(">server started.\n");
+                    } else {
+                        selfServer.setActive(true);
+                        System.out.println("Server resumed.");
+                        Gui.serverTextArea.append(">server resumed.\n");
+                    }
+                    Manager.clientCore.getAccount().setAssignedIP(selfServer.getServerSocket().getInetAddress().getHostAddress());
                 } else {
-                    selfServer.setActive(true);
-                    System.out.println("Server resumed.");
-                    Gui.serverTextArea.append(">server resumed.\n");
+                    Gui.serverTextArea.append(">You Must login (with) your account first.\n");
                 }
                 break;
             case ConstantVariables.COMMAND_STOP_SERVER:
                 selfServer.stopServer();
+                Manager.clientCore.getAccount().setAssignedIP("");
                 break;
             case ConstantVariables.COMMAND_CLIENT_START:
-                clientCore.connect();
+                if (Manager.clientCore.getAccount().isLoggedIn())
+                    clientCore.connect();
+                else
+                    JOptionPane.showMessageDialog(null, "You must log in first", "Error.Log in required.", JOptionPane.WARNING_MESSAGE);
                 break;
             case ConstantVariables.COMMAND_CLIENT_STOP:
                 clientCore.disconnect();
@@ -82,8 +92,26 @@ public class P2PGuiHandler implements ActionListener {
             case ConstantVariables.COMMAND_SHOW_REGISTER_WINDOW:
                 Manager.form.getRegisterForm().setVisible(true);
                 break;
+            case ConstantVariables.COMMAND_SHOW_LOGIN_WINDOW:
+                Manager.form.getLoginForm().makeVisible();
+                break;
+            case ConstantVariables.COMMAND_LOGOUT_ACCOUNT:
+                logoutAccount();
+                break;
             default:
                 System.out.println("Wrong command.see available commands by typing help");
         }
+    }
+
+    private void logoutAccount() {
+        if (Manager.clientCore.getAccount().isLoggedIn()) {
+            Manager.form.getLogoutItem().setEnabled(false);
+            Manager.form.getLoginItem().setEnabled(true);
+            String logoutMessage = "Your Account " + Manager.clientCore.getAccount().getFullName() + "\nLogged Out Successfully";
+            JOptionPane.showMessageDialog(null, logoutMessage, "Logout Completed.", JOptionPane.INFORMATION_MESSAGE);
+            Manager.clientCore.setAccount(new Account());
+        } else
+            System.out.println("Already logged out");
+
     }
 }

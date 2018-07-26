@@ -20,9 +20,12 @@ public class Gui extends JFrame {
 
     private void createUIComponents() {
         // TODO: add custom component creation code here
+        registerForm = new RegisterForm();
+        loginForm = new LoginForm();
     }
 
     private void initComponents() {
+        createUIComponents();
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         menuBar1 = new JMenuBar();
         fileMenu = new JMenu();
@@ -68,7 +71,6 @@ public class Gui extends JFrame {
         Container contentPane = getContentPane();
         contentPane.setLayout(null);
 
-        registerForm = new RegisterForm();
         //======== menuBar1 ========
         {
 
@@ -97,6 +99,7 @@ public class Gui extends JFrame {
                 //---- logoutItem ----
                 logoutItem.setText("Logout");
                 accountMenu.add(logoutItem);
+                logoutItem.setEnabled(false);
             }
             menuBar1.add(accountMenu);
 
@@ -287,6 +290,13 @@ public class Gui extends JFrame {
         clientDisconnectBtn.setActionCommand(ConstantVariables.COMMAND_CLIENT_STOP);
         registerItem.setActionCommand(ConstantVariables.COMMAND_SHOW_REGISTER_WINDOW);
 
+        loginItem.setActionCommand(ConstantVariables.COMMAND_SHOW_LOGIN_WINDOW);
+        loginItem.addActionListener(handler);
+
+        logoutItem.setActionCommand(ConstantVariables.COMMAND_LOGOUT_ACCOUNT);
+        logoutItem.addActionListener(handler);
+
+
         registerItem.addActionListener(handler);
         sendFileBtn.addActionListener(handler);
         startListenBtn.addActionListener(handler);
@@ -335,7 +345,7 @@ public class Gui extends JFrame {
     // JFormDesigner - End of variables declaration  //GEN-END:variables
     private P2PGuiHandler handler;
     private RegisterForm registerForm;
-
+    private LoginForm loginForm;
 
     public JTextField getFileSavePathTextField() {
         return fileSavePathTextField;
@@ -347,5 +357,21 @@ public class Gui extends JFrame {
 
     public RegisterForm getRegisterForm() {
         return registerForm;
+    }
+
+    public LoginForm getLoginForm() {
+        return loginForm;
+    }
+
+    public JMenuItem getLoginItem() {
+        return loginItem;
+    }
+
+    public JMenuItem getLogoutItem() {
+        return logoutItem;
+    }
+
+    public JMenuItem getRegisterItem() {
+        return registerItem;
     }
 }
