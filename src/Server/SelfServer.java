@@ -24,7 +24,7 @@ public class SelfServer extends Thread {
     public SelfServer() {
         clientSockets = new ArrayList<>();
         try {
-            serverSocket = new ServerSocket(ConstantVariables.TESTPORT);
+            serverSocket = new ServerSocket(ConstantVariables.SERVERPORT1);
         } catch (IOException e) {
             e.printStackTrace();
         }

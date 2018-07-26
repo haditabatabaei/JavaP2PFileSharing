@@ -105,7 +105,7 @@ public class ClientCore {
     public void connect() {
         try {
             //  myConnection = new Socket(ConstantVariables.TESTHOSTIP, ConstantVariables.TESTPORT);
-            myConnection = new Socket(ConstantVariables.TESTHOSTIP, 8076);
+            myConnection = new Socket(ConstantVariables.LOCALMAINSERVERIP, ConstantVariables.SERVERPORT1);
             //clientTextArea.append("CLIENT>This client connected to server\n");
             System.out.println("CLIENT>This client connected to server");
             System.out.println("CLIENT>Client side streamers ready.");
